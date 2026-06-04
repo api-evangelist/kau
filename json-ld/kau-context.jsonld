@@ -1,0 +1,37 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "kau": "https://www.kau.edu.sa/vocab#",
+    "schema": "https://schema.org/",
+    "name": "schema:name",
+    "url": "schema:url",
+    "description": "schema:description",
+    "sameAs": "schema:sameAs",
+    "address": "schema:address",
+    "location": "schema:location",
+    "ssoPortal": {
+      "@id": "kau:ssoPortal",
+      "@type": "@id"
+    },
+    "identityFederation": {
+      "@id": "kau:identityFederation",
+      "@type": "@id"
+    }
+  },
+  "@type": "CollegeOrUniversity",
+  "@id": "https://www.kau.edu.sa/en",
+  "name": "King Abdulaziz University",
+  "url": "https://www.kau.edu.sa/en",
+  "description": "King Abdulaziz University (KAU) is a large public research university in Jeddah, Saudi Arabia.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Jeddah",
+    "addressCountry": "SA"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/school/king-abdulaziz-university",
+    "https://x.com/kauedu_sa"
+  ],
+  "ssoPortal": "https://sso.kau.edu.sa/",
+  "identityFederation": "https://iam.kau.edu.sa/oamsso-bin/login-fed.pl"
+}
