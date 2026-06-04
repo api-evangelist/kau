@@ -1,0 +1,70 @@
+---
+aid: kau
+name: King Abdulaziz University
+description: >-
+  King Abdulaziz University (KAU) is a large public research university in Jeddah,
+  Saudi Arabia, ranked #149 in the QS World University Rankings 2025, serving over
+  100,000 students across 33+ faculties and institutes. Its public web presence runs
+  on the official kau.edu.sa (.gov.sa) domain and includes a beta "Open Data" page,
+  a library/Deanship of Library Affairs portal, and a King Abdulaziz Scientific
+  Platform. KAU operates gated identity infrastructure (an SSO portal at sso.kau.edu.sa
+  and an Oracle Access Manager federation endpoint at iam.kau.edu.sa) but, as of this
+  review, publishes no openly documented, self-service developer API, API reference,
+  or developer portal. There is no official KAU GitHub organization; only a student-run
+  Google Developer Student Club and individual academic projects are present on GitHub.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/kau/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Research
+  - Saudi Arabia
+  - Middle East
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: kau:identity-sso
+    name: KAU Single Sign-On / Identity Federation
+    description: >-
+      King Abdulaziz University operates an institutional single sign-on portal
+      (sso.kau.edu.sa) and an Oracle Access Manager federation login endpoint
+      (iam.kau.edu.sa/oamsso-bin/login-fed.pl). These provide authentication and
+      SAML/federation for university applications. They are gated institutional
+      identity services, not a publicly documented developer API; no public client
+      registration, API reference, or self-service developer access has been confirmed.
+    humanURL: https://www.kau.edu.sa/en
+    tags:
+      - Identity
+      - SSO
+      - Authentication
+      - Federation
+    properties:
+      - type: Authentication
+        url: https://iam.kau.edu.sa/oamsso-bin/login-fed.pl
+common:
+  - type: Website
+    url: https://www.kau.edu.sa/en
+  - type: DeveloperPortal
+    url: https://www.kau.edu.sa/page/open-data
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/king-abdulaziz-university
+  - type: Twitter
+    url: https://x.com/kauedu_sa
+  - type: Authentication
+    url: https://sso.kau.edu.sa/
+  - type: Plans
+    url: plans/kau-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/kau-rate-limits.yml
+  - type: FinOps
+    url: finops/kau-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
