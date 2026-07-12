@@ -47,6 +47,8 @@ apis:
       - type: Authentication
         url: https://iam.kau.edu.sa/oamsso-bin/login-fed.pl
 common:
+  - type: DomainSecurity
+    url: security/kau-domain-security.yml
   - type: Website
     url: https://www.kau.edu.sa/en
   - type: DeveloperPortal
