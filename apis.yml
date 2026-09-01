@@ -1,87 +1,326 @@
 ---
 aid: kau
 name: King Abdulaziz University
+x-type: university
+x-category: Public Research University
 description: >-
-  King Abdulaziz University (KAU) is a large public research university in Jeddah,
-  Saudi Arabia, ranked #149 in the QS World University Rankings 2025, serving over
-  100,000 students across 33+ faculties and institutes. Its public web presence runs
-  on the official kau.edu.sa (.gov.sa) domain and includes a beta "Open Data" page,
-  a library/Deanship of Library Affairs portal, and a King Abdulaziz Scientific
-  Platform. KAU operates gated identity infrastructure (an SSO portal at sso.kau.edu.sa
-  and an Oracle Access Manager federation endpoint at iam.kau.edu.sa) but, as of this
-  review, publishes no openly documented, self-service developer API, API reference,
-  or developer portal. There is no official KAU GitHub organization; only a student-run
-  Google Developer Student Club and individual academic projects are present on GitHub.
+  King Abdulaziz University (KAU) is a large public research university in Jeddah, Saudi
+  Arabia, serving over 100,000 students across 30 faculties and institutes including a
+  branch campus at Rabigh. Its programmable footprint is small but, unusually for this
+  cohort, partly its own. KAU operates a genuine institution-run Open Data API at
+  opendata.kau.edu.sa returning aggregate student enrollment and graduation statistics as
+  JSON over eight documented, unauthenticated GET invocations, and it operates its own
+  SAML 2.0 identity provider at iam.kau.edu.sa/oamfed/idp/samlv20 on Oracle Access
+  Manager Federation, self-hosted in KAU's own 192.162.72.0/24 address block with no
+  managed-IdP vendor underneath it.
+
+  Everything else that looks like a KAU API belongs to somebody else. The best
+  machine-readable surface associated with the university — a complete OAI-PMH 2.0 data
+  provider carrying its journals back to 2000 — is Elsevier's Digital Commons at
+  kauj.researchcommons.org, administered from dc-support@elsevier.com. Its learning
+  platform is a Blackboard Learn SaaS tenancy on lms.kau.edu.sa, and its scientific
+  platform at libsp.kau.edu.sa is an Al Manhal tenancy. All three are recorded here as
+  tenant relationships and none of their contracts is claimed as KAU's.
+
+  KAU is a Crossref member in its own right under DOI prefix 10.4197 and is registered in
+  ROR. It holds no DataCite account, publishes no SAML metadata, and belongs to neither
+  the Maeen national identity federation nor eduGAIN although thirty-eight Saudi entities
+  do. There is no developer portal, no API key or client registration of any kind, no
+  official GitHub organisation, and no OpenAPI — the specification in this repository is
+  derived by API Evangelist from KAU's published endpoints and a real response body, not
+  published by KAU.
 type: Index
 deliveryModel:
   model: saas
   open_source: false
-  commercial: true
-  callable_host: false
+  commercial: false
+  callable_host: true
   label: Hosted service · you call their endpoint
   confidence: medium
   source:
-  - pricing
-  generated: '2026-08-28'
+    - openapi
+  generated: '2026-09-01'
   method: derived
 accessModel:
   pricing: free
-  onboarding: unknown
+  onboarding: none
   trial: false
   try_now: false
-  public: false
-  label: Free
-  confidence: medium
+  public: true
+  label: Free · no credential required
+  confidence: high
   source:
-  - plans
-  generated: '2026-07-22'
-  method: derived
-position: Consumer
-access: 3rd-Party
+    - authentication
+  generated: '2026-09-01'
+  method: probed
+position: Provider
+access: 1st-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/kau.png
 url: https://raw.githubusercontent.com/api-evangelist/kau/refs/heads/main/apis.yml
 tags:
-  - Education
-  - Higher Education
   - University
+  - Higher Education
+  - Education
   - Research
+  - Open Data
+  - Research Repository
+  - Identity Federation
+  - Learning Management
   - Saudi Arabia
   - Middle East
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 specificationVersion: '0.23'
 apis:
-  - aid: kau:identity-sso
-    name: KAU Single Sign-On / Identity Federation
+  - aid: kau:open-data
+    name: KAU Open Data API
+    x-operator: institution
+    x-operator-basis: >-
+      opendata.kau.edu.sa is under kau.edu.sa, KAU's own registrable domain, resolving to
+      192.162.72.12 inside the university's own self-hosted address block. The endpoints
+      are published by KAU on its own Open Data page under a KAU open-data licence. No
+      vendor host, vendor contact or vendor product name appears anywhere in this surface.
     description: >-
-      King Abdulaziz University operates an institutional single sign-on portal
-      (sso.kau.edu.sa) and an Oracle Access Manager federation login endpoint
-      (iam.kau.edu.sa/oamsso-bin/login-fed.pl). These provide authentication and
-      SAML/federation for university applications. They are gated institutional
-      identity services, not a publicly documented developer API; no public client
-      registration, API reference, or self-service developer access has been confirmed.
-    humanURL: https://www.kau.edu.sa/en
+      King Abdulaziz University's own open data web service. A single GET endpoint,
+      /api/StudentsData, returns aggregate student enrollment and graduation counts
+      broken down by faculty, department, educational level, study type, gender,
+      nationality and admission cohort. KAU publishes eight parameter combinations on its
+      Open Data page and requires no credential for any of them. Records are aggregate
+      counts only and no record identifies an individual. The 2026-06-03 profile of this
+      institution recorded KAU's Open Data page as an empty beta placeholder with no
+      datasets or endpoints; that was wrong and this entry is the correction.
+
+      The host could not be reached from this run — it resolves in DNS but refused
+      connections on 443 from two independent network egresses, as did every other host
+      in KAU's self-hosted block, while its CloudFront-fronted www host answered 200
+      throughout. That pattern reads as a geographic access restriction rather than a
+      dead service. The last verified HTTP 200 is an Internet Archive capture of
+      2025-04-17 returning 1,886 records, with seven further parameter combinations
+      independently captured at 200 across 2024. The OpenAPI is marked derived, not
+      probed-live, for exactly this reason.
+    humanURL: https://www.kau.edu.sa/page/open-data
+    baseURL: https://opendata.kau.edu.sa/api/StudentsData
     tags:
-      - Identity
-      - SSO
+      - Open Data
+      - Students
+      - Statistics
+      - Education
+    properties:
+      - type: OpenAPI
+        url: openapi/kau-open-data-api-openapi.yml
+      - type: OpenAPIOriginal
+        url: openapi/_original/kau-open-data-api-openapi.yml
+      - type: JSONSchema
+        url: json-schema/kau-students-data-schema.json
+      - type: Examples
+        url: examples/index.yml
+      - type: Vocabulary
+        url: vocabulary/kau-open-data-vocabulary.yml
+      - type: Authentication
+        url: authentication/kau-authentication.yml
+      - type: OpenData
+        url: https://www.kau.edu.sa/page/open-data
+      - type: Documentation
+        url: https://kau.edu.sa/ar/page/open-data
+
+  - aid: kau:identity-federation
+    name: KAU SAML 2.0 Identity Provider
+    x-operator: institution
+    x-operator-basis: >-
+      iam.kau.edu.sa is under kau.edu.sa and resolves to 192.162.72.96 in KAU's own
+      self-hosted block, with no CNAME to any managed identity platform — the pattern
+      that correctly demotes other institutions' IdPs to tenant. The Oracle Access
+      Manager software is a vendor's; the deployment is KAU's.
+    description: >-
+      King Abdulaziz University's institutional SAML 2.0 identity provider, running
+      Oracle Access Manager Federation at /oamfed/idp/samlv20. The IdP itself is
+      unreachable from outside Saudi Arabia, so it was evidenced indirectly and
+      conclusively: KAU's Blackboard service provider generated a freshly signed,
+      freshly timestamped SAML AuthnRequest addressed to it during this run
+      (IssueInstant 2026-09-01T17:11:59.020Z, RSA-SHA256), which is archived in this
+      repository. The 2026-06-03 profile recorded the federation endpoint as
+      /oamsso-bin/login-fed.pl; the actual SAML 2.0 protocol endpoint is
+      /oamfed/idp/samlv20, corrected here from live evidence.
+
+      Not a developer API and not federated outward. KAU publishes no SAML metadata and
+      belongs to neither Maeen, Saudi Arabia's national identity federation, nor
+      eduGAIN, although thirty-eight Saudi entities including King Saud University,
+      KFUPM, KAUST and King Khalid University are registered in Maeen. KAU runs
+      federation for itself only, so no external relying party can federate with it even
+      in principle.
+    humanURL: https://www.kau.edu.sa/page/open-data
+    baseURL: https://iam.kau.edu.sa/oamfed/idp/samlv20
+    tags:
+      - Identity Federation
+      - SAML
       - Authentication
-      - Federation
+      - SSO
+    properties:
+      - type: IdentityFederation
+        url: identity-federation/kau-identity-federation.yml
+      - type: Conformance
+        url: conformance/kau-conformance.yml
+      - type: Authentication
+        url: authentication/kau-authentication.yml
+
+  - aid: kau:journals-digital-commons
+    name: King Abdulaziz University Journals (Digital Commons tenancy)
+    x-operator: tenant
+    x-operator-basis: >-
+      The OAI-PMH Identify response names repositoryName "King Abdulaziz University
+      Journals" but adminEmail dc-support@elsevier.com and a baseURL on
+      researchcommons.org — Elsevier's Digital Commons platform, not a KAU host. KAU's
+      journals, KAU's editorial programme and KAU's Crossref prefix; Elsevier's contract.
+    description: >-
+      KAU's Scientific Publishing Centre journals delivered on Elsevier's Digital Commons
+      (bepress) platform, with a fully working OAI-PMH 2.0 data provider carrying records
+      back to 2000-01-19. This is the single most machine-readable surface associated
+      with the university and it is deliberately NOT credited to it: the relationship is
+      recorded, the vendor's contract is not saved. KAU holds a distinct Crossref
+      membership for this platform (member 53473, "King Abdulaziz University - DIGITAL
+      COMMONS JOURNALS") alongside its own membership 2709.
+    humanURL: https://kauj.researchcommons.org/
+    baseURL: https://kauj.researchcommons.org/do/oai/
+    tags:
+      - Research Repository
+      - OAI-PMH
+      - Journals
+      - Open Access
+    properties:
+      - type: ResearchRepository
+        url: https://kauj.researchcommons.org/
+      - type: Conformance
+        url: conformance/kau-conformance.yml
+      - type: Examples
+        url: examples/kau-journals-oai-identify-example.xml
+
+  - aid: kau:blackboard-learn
+    name: KAU Blackboard Learn (LMS tenancy)
+    x-operator: tenant
+    x-operator-basis: >-
+      lms.kau.edu.sa is a KAU hostname but CNAMEs to
+      learn.685db858b7b43.euc1.prod-01.core.blackboard.com and terminates on Amazon
+      CloudFront; responses carry x-blackboard-product "Blackboard Learn 4000.21.0" and
+      x-blackboard-appserver naming a eu-central-1 SaaS node. KAU's students and courses,
+      Blackboard's infrastructure and contract.
+    description: >-
+      King Abdulaziz University's learning management system, a Blackboard Learn SaaS
+      tenancy. The Blackboard Learn REST API is genuinely provisioned here —
+      /learn/api/public/v1/system/version returns 200 with the running build, and
+      /learn/api/public/v1/courses returns a JSON 401 rather than a 404, which is what
+      establishes the surface is deployed rather than merely routed. LTI management
+      endpoints are present and gated at 401. Authentication is by SAML redirect to KAU's
+      own identity provider, which is how that IdP was evidenced. Recorded as a tenant
+      relationship; Blackboard's contract is not saved here.
+    humanURL: https://lms.kau.edu.sa/
+    baseURL: https://lms.kau.edu.sa/learn/api/public/v1
+    tags:
+      - Learning Management
+      - LTI
+      - SAML
+      - Education
     properties:
       - type: Authentication
-        url: https://iam.kau.edu.sa/oamsso-bin/login-fed.pl
+        url: authentication/kau-authentication.yml
+      - type: Conformance
+        url: conformance/kau-conformance.yml
+      - type: Examples
+        url: examples/kau-lms-system-version-example.json
+
+  - aid: kau:scientific-platform
+    name: King Abdulaziz Scientific Platform (Al Manhal tenancy)
+    x-operator: tenant
+    x-operator-basis: >-
+      libsp.kau.edu.sa is a KAU hostname that CNAMEs to aws-prod-lb.almanhal.com, and the
+      page it serves loads its assets from assets.almanhal.com and carries Al Manhal's
+      Facebook app id. A KAU-branded tenancy on Al Manhal's discovery platform.
+    description: >-
+      KAU's library discovery and scientific content platform, branded "King Abdulaziz
+      scientific platform" and running on Al Manhal. Live at HTTP 200. No public API,
+      OAI-PMH endpoint or machine-readable contract was found on it. Recorded because the
+      tenancy is a real institutional fact — the university operates a discovery service
+      — and deleting the relationship to avoid crediting the vendor's engineering would
+      destroy the fact along with the misattribution.
+    humanURL: https://libsp.kau.edu.sa/
+    tags:
+      - Library
+      - Discovery
+      - Research
+    properties:
+      - type: LibraryCatalog
+        url: https://libsp.kau.edu.sa/
+
+  - aid: kau:crossref
+    name: Crossref membership
+    x-operator: registry
+    x-operator-basis: >-
+      An identifier registry King Abdulaziz University is registered in, not a vendor
+      platform and not a contract of KAU's. Crossref's own API is never saved here; the
+      membership is.
+    description: >-
+      KAU holds two Crossref memberships in its own name. Member 2709, "King Abdulaziz
+      University Scientific Publishing Centre", operates DOI prefix 10.4197 with 1,920
+      registered DOIs of which 358 are current — the university's own publishing
+      programme. Member 53473, "King Abdulaziz University - DIGITAL COMMONS JOURNALS",
+      covers the same journals as delivered through Elsevier's platform. KAU is also
+      registered in the Crossref Funder Registry under Funder ID 501100004054. Both
+      memberships verified live at HTTP 200 on 2026-09-01.
+    humanURL: https://api.crossref.org/members/2709
+    tags:
+      - DOI
+      - Crossref
+      - Scholarly Publishing
+    properties:
+      - type: Registry
+        url: https://api.crossref.org/members/2709
+      - type: Registry
+        url: https://api.crossref.org/members/53473
+      - type: Conformance
+        url: conformance/kau-conformance.yml
+
+  - aid: kau:ror
+    name: ROR registration
+    x-operator: registry
+    x-operator-basis: >-
+      The Research Organization Registry lists KAU as an organisation. A fact about the
+      institution, recorded as a membership; ROR's contract is not saved here.
+    description: >-
+      King Abdulaziz University is registered in ROR as https://ror.org/02ma4wv74, with
+      declared domain kau.edu.sa, types education and funder, and cross-references to
+      Crossref Funder ID 501100004054, GRID grid.412125.1, ISNI 0000 0001 0619 1117 and
+      Wikidata Q1795928. This ROR identifier is what 1,249 DataCite DOIs use to credit
+      KAU-affiliated authors — an affiliation signal, not a KAU DataCite account, which
+      does not exist.
+    humanURL: https://ror.org/02ma4wv74
+    tags:
+      - ROR
+      - Persistent Identifier
+      - Research
+    properties:
+      - type: Registry
+        url: https://ror.org/02ma4wv74
+
 common:
-  - type: DomainSecurity
-    url: security/kau-domain-security.yml
   - type: Website
     url: https://www.kau.edu.sa/en
-  - type: DeveloperPortal
+  - type: OpenData
     url: https://www.kau.edu.sa/page/open-data
+  - type: ResearchRepository
+    url: https://kauj.researchcommons.org/
+  - type: LibraryCatalog
+    url: https://libsp.kau.edu.sa/
+  - type: IdentityFederation
+    url: identity-federation/kau-identity-federation.yml
+  - type: Conformance
+    url: conformance/kau-conformance.yml
+  - type: Authentication
+    url: authentication/kau-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/school/king-abdulaziz-university
   - type: Twitter
     url: https://x.com/kauedu_sa
-  - type: Authentication
-    url: https://sso.kau.edu.sa/
+  - type: DomainSecurity
+    url: security/kau-domain-security.yml
   - type: Plans
     url: plans/kau-plans-pricing.yml
   - type: RateLimits
@@ -90,6 +329,88 @@ common:
     url: finops/kau-finops.yml
   - type: Review
     url: review.yml
+x-coverage:
+  state: covered
+  reason: covered
+  generated: '2026-09-01'
+  detail: >-
+    Re-profiled 2026-09-01 against the university pipeline's operator axis, replacing a
+    2026-06-03 profile that recorded a single gated SSO entry and described KAU's Open
+    Data page as an empty beta placeholder. Both findings were wrong. KAU operates two
+    real institution-run surfaces: an unauthenticated Open Data API at
+    opendata.kau.edu.sa with eight endpoints KAU itself publishes, and a self-hosted
+    SAML 2.0 identity provider at iam.kau.edu.sa/oamfed/idp/samlv20. Three tenant
+    relationships (Elsevier Digital Commons journals, Blackboard Learn, Al Manhal) and
+    two registry memberships (Crossref, ROR) are recorded without saving any vendor
+    contract.
+
+    One honest limitation. Every host in KAU's self-hosted 192.162.72.0/24 block —
+    opendata, sso, iam, research, journals, marz — refused connections on 443 from two
+    independent network egresses, while KAU's CloudFront-fronted www host and all three
+    vendor tenancies answered normally throughout. This is a geographic restriction on
+    KAU's own estate, not a block on us and not a dead service: the SAML IdP was proven
+    live during the run by a signed AuthnRequest from KAU's own Blackboard tenancy, and
+    the Open Data API's last verified 200 is an Internet Archive capture of 2025-04-17
+    returning 1,886 records, corroborated by seven further 200 captures across 2024. The
+    OpenAPI, JSON Schema and vocabulary in this repository are consequently marked
+    derived rather than probed-live. State is recorded as covered because the surfaces
+    were found, attributed and evidenced — not because everything answered.
+
+    Evidenced negatives worth keeping: no DataCite account, no ORCID member organisation,
+    no Shibboleth, no membership of the Maeen national identity federation or eduGAIN
+    despite thirty-eight Saudi peers being registered, no official GitHub organisation,
+    no developer portal, no API key or client registration anywhere, and no
+    KAU-published OpenAPI. The dataset download links on KAU's own Open Data page are
+    also broken: every GetFile.aspx URL returns 404 after the site's migration to
+    Next.js, so the spreadsheet half of the programme is dead while the API half is not.
+  evidence:
+    - url: https://www.kau.edu.sa/en
+      status: 200
+    - url: https://www.kau.edu.sa/page/open-data
+      status: 200
+    - url: https://kau.edu.sa/ar/page/open-data
+      status: 200
+    - url: https://opendata.kau.edu.sa/api/StudentsData?type=u&year=2023&semester=1
+      status: 0
+      note: >-
+        Connection refused/timeout on 443 from two egresses; DNS resolves to
+        192.162.72.12. Last verified 200 via Internet Archive capture 2025-04-17
+        (application/json, 1,886 records).
+    - url: https://lms.kau.edu.sa/
+      status: 200
+    - url: https://lms.kau.edu.sa/learn/api/public/v1/system/version
+      status: 200
+    - url: https://lms.kau.edu.sa/learn/api/public/v1/courses
+      status: 401
+    - url: https://lms.kau.edu.sa/auth-saml/saml/metadata?apId=_7123_1
+      status: 200
+      note: Returns signed SAML AuthnRequest addressed to https://iam.kau.edu.sa/oamfed/idp/samlv20.
+    - url: https://kauj.researchcommons.org/do/oai/?verb=Identify
+      status: 200
+    - url: https://libsp.kau.edu.sa/
+      status: 200
+    - url: https://api.crossref.org/members/2709
+      status: 200
+    - url: https://api.crossref.org/members/53473
+      status: 200
+    - url: https://ror.org/02ma4wv74
+      status: 200
+    - url: https://api.datacite.org/clients?query=abdulaziz
+      status: 200
+      note: meta.total = 0 — no DataCite membership.
+    - url: https://technical.edugain.org/api.php?action=list_entities&format=json
+      status: 200
+      note: 13,200 entities; 0 matches for kau.edu.sa. 38 entities registered by maeen.sa.
+    - url: https://sso.kau.edu.sa/
+      status: 0
+      note: Unreachable from this run; DNS resolves to 192.162.72.15. Linked from KAU's own live page.
+    - url: https://www.kau.edu.sa/GetFile.aspx?id=273063&fn=g2013.xls
+      status: 404
+      note: Dataset download linked from KAU's own Open Data page; dead after the Next.js migration.
+    - url: https://www.kau.edu.sa/robots.txt
+      status: 404
+    - url: https://www.kau.edu.sa/.well-known/security.txt
+      status: 404
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
