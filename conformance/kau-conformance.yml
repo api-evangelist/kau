@@ -1,0 +1,232 @@
+specification: API Evangelist Domain Standard Conformance
+specificationVersion: '0.1'
+provider: King Abdulaziz University
+providerId: kau
+regime: education
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live probes on 2026-09-01 unless noted. SAML: the auto-submitting POST form at
+  https://lms.kau.edu.sa/auth-saml/saml/metadata?apId=_7123_1 (HTTP 200), whose decoded
+  SAMLRequest is archived at identity-federation/kau-lms-saml-authnrequest.xml. OAI-PMH:
+  https://kauj.researchcommons.org/do/oai/?verb=Identify (HTTP 200, text/xml) and
+  ?verb=ListSets (HTTP 200), archived at examples/kau-journals-oai-identify-example.xml.
+  Crossref: https://api.crossref.org/members?query=abdulaziz (HTTP 200) and
+  https://api.crossref.org/members/2709 (HTTP 200). ROR: https://api.ror.org/v2/organizations/https://ror.org/02ma4wv74
+  (HTTP 200). DataCite: https://api.datacite.org/clients?query=abdulaziz and
+  .../providers?query=abdulaziz (both HTTP 200, 0 results) plus a DOI affiliation query.
+  LTI: https://lms.kau.edu.sa/learn/api/public/v1/lti/domainConfigs and .../lti/placements
+  (both HTTP 401), https://lms.kau.edu.sa/webapps/blackboard/execute/blti/launchLink (HTTP 302).
+  eduGAIN: https://technical.edugain.org/api.php?action=list_entities (HTTP 200).
+description: >-
+  Conformance against the Kin Score `education` regime standards list — scim, lti,
+  oneroster, ed-fi, caliper, qti, oai-pmh, shibboleth, saml, orcid, datacite, crossref.
+  Reward-only: a standard is recorded as conformant for King Abdulaziz University only
+  where an institution-operated surface demonstrates it. Standards reached only through
+  a vendor platform running under a KAU hostname are listed separately under
+  tenant_operated, because that conformance is the platform's engineering, not KAU's.
+
+  Two results are worth reading carefully. SAML is credited to KAU even though the
+  evidence was produced by Blackboard's software, because what Blackboard's software
+  proves is the existence and liveness of an endpoint on KAU's own domain. OAI-PMH is
+  NOT credited to KAU, even though the repository is called "King Abdulaziz University
+  Journals", because the Identify response names dc-support@elsevier.com and a
+  researchcommons.org baseURL — the exact shape of misattribution this pipeline exists
+  to prevent.
+
+conforms:
+  - standard: saml
+    name: SAML 2.0
+    status: conformant
+    x-operator: institution
+    confidence: high
+    evidence:
+      url: https://lms.kau.edu.sa/auth-saml/saml/metadata?apId=_7123_1
+      status: 200
+      locations:
+        - 'form/@action = https://iam.kau.edu.sa/oamfed/idp/samlv20'
+        - 'saml2p:AuthnRequest/@Destination = https://iam.kau.edu.sa/oamfed/idp/samlv20'
+        - 'saml2p:AuthnRequest/@Version = 2.0'
+        - 'saml2p:AuthnRequest/@ProtocolBinding = urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
+        - 'saml2p:AuthnRequest/ds:Signature/ds:SignedInfo/ds:SignatureMethod/@Algorithm = rsa-sha256'
+      local_copy: identity-federation/kau-lms-saml-authnrequest.xml
+    basis: >-
+      The AuthnRequest is addressed to a SAML 2.0 identity provider endpoint on
+      iam.kau.edu.sa — KAU's own registrable domain, resolving to 192.162.72.96 inside
+      KAU's self-hosted address block, with no CNAME to any managed identity platform.
+      It was signed and timestamped during this run (IssueInstant
+      2026-09-01T17:11:59.020Z), so the IdP is in live production use, not merely
+      configured. KAU operates a SAML 2.0 IdP.
+    caveat: >-
+      Credited on protocol endpoint plus live use, not on published metadata. KAU
+      publishes no SAML EntityDescriptor anywhere reachable, and is absent from the
+      Maeen national federation and from eduGAIN; see identity-federation/kau-identity-federation.yml.
+      The standard is implemented; it is not published.
+
+  - standard: crossref
+    name: Crossref DOI registration
+    status: conformant
+    x-operator: institution
+    confidence: high
+    evidence:
+      url: https://api.crossref.org/members/2709
+      status: 200
+      locations:
+        - 'message.primary-name = King Abdulaziz University Scientific Publishing Centre'
+        - 'message.prefixes = ["10.4197"]'
+        - 'message.counts.total-dois = 1920'
+        - 'message.counts.current-dois = 358'
+    basis: >-
+      KAU is a Crossref member in its own right, under its own name, operating its own
+      DOI prefix 10.4197 with 1,920 registered DOIs of which 358 are current. This is a
+      registration KAU holds, not a shared registry surface it merely appears in — the
+      prefix is assigned to the university's Scientific Publishing Centre. A second
+      Crossref membership, 53473 "King Abdulaziz University - DIGITAL COMMONS JOURNALS",
+      covers the same journals as delivered through Elsevier's platform.
+
+  - standard: orcid
+    name: ORCID
+    status: not-conformant
+    x-operator: none
+    confidence: moderate
+    basis: >-
+      Not credited. 7,499 ORCID records name King Abdulaziz University as an affiliation
+      (https://pub.orcid.org/v3.0/expanded-search/?q=affiliation-org-name:"King Abdulaziz University",
+      HTTP 200), but that is 7,499 researchers asserting an affiliation, not the
+      institution operating or integrating anything. No ORCID member-organisation
+      account, no institutional ORCID integration and no ORCID API client belonging to
+      KAU could be evidenced. Researcher affiliation is not institutional conformance.
+
+  - standard: datacite
+    name: DataCite DOI registration
+    status: not-conformant
+    x-operator: none
+    confidence: high
+    evidence:
+      - url: https://api.datacite.org/clients?query=abdulaziz
+        status: 200
+        note: meta.total = 0 — no DataCite repository client.
+      - url: https://api.datacite.org/providers?query=abdulaziz
+        status: 200
+        note: meta.total = 0 — no DataCite provider/consortium organisation.
+    basis: >-
+      Explicitly negative, and evidenced rather than assumed. 1,249 DataCite DOIs carry
+      KAU's ROR https://ror.org/02ma4wv74 as a creator affiliation, which is other
+      people's deposits crediting KAU authors — the institution itself holds no DataCite
+      client or provider account. Recorded because the presence of affiliated DOIs is
+      exactly the signal that would otherwise be misread as a membership.
+
+  - standard: shibboleth
+    name: Shibboleth
+    status: not-conformant
+    x-operator: none
+    confidence: high
+    basis: >-
+      Not credited, and deliberately kept separate from the saml entry above. KAU's IdP
+      is Oracle Access Manager Federation — the /oamfed/idp/samlv20 servlet path — not
+      Shibboleth, and KAU appears in no Shibboleth federation metadata aggregate.
+      Crediting shibboleth from a SAML finding would be the reward-only rule being
+      broken to fill a slot.
+
+  - standard: scim
+    name: SCIM
+    status: not-found
+    basis: No SCIM endpoint, discovery document or provisioning claim found on any KAU-operated surface.
+  - standard: oneroster
+    name: OneRoster
+    status: not-found
+    basis: No OneRoster endpoint or claim found.
+  - standard: ed-fi
+    name: Ed-Fi
+    status: not-found
+    basis: No Ed-Fi endpoint or claim found. Ed-Fi is a US K-12 standard and is not expected here.
+  - standard: qti
+    name: QTI
+    status: not-found
+    basis: >-
+      No QTI surface reachable. KAU's Blackboard tenancy supports QTI import as a product
+      feature, but nothing observable on the tenancy evidences it and the conformance
+      would be Blackboard's in any case.
+
+tenant_operated:
+  description: >-
+    Standards demonstrably implemented on platforms KAU rents, under KAU hostnames or
+    KAU-branded accounts. Listed so the relationship is recorded and NOT deleted, and
+    listed separately so none of it is scored as KAU's engineering.
+  standards:
+    - standard: oai-pmh
+      name: OAI-PMH 2.0
+      status: conformant
+      x-operator: tenant
+      operator: Elsevier (Digital Commons / bepress)
+      confidence: high
+      evidence:
+        url: https://kauj.researchcommons.org/do/oai/?verb=Identify
+        status: 200
+        content_type: text/xml
+        locations:
+          - 'OAI-PMH/Identify/repositoryName = King Abdulaziz University Journals'
+          - 'OAI-PMH/Identify/protocolVersion = 2.0'
+          - 'OAI-PMH/Identify/adminEmail = dc-support@elsevier.com'
+          - 'OAI-PMH/Identify/baseURL = http://kauj.researchcommons.org/do/oai/'
+          - 'OAI-PMH/Identify/earliestDatestamp = 2000-01-19T00:00:00Z'
+        local_copy: examples/kau-journals-oai-identify-example.xml
+      basis: >-
+        A fully working OAI-PMH 2.0 data provider carrying KAU's journals back to 2000,
+        and the single most machine-readable surface associated with this university.
+        The content, the journals and the editorial programme are KAU's. The protocol
+        implementation is Elsevier's Digital Commons, on Elsevier's researchcommons.org
+        host, administered from an elsevier.com address. Not credited to KAU.
+    - standard: lti
+      name: LTI
+      status: present
+      x-operator: tenant
+      operator: Blackboard (Anthology)
+      confidence: moderate
+      evidence:
+        - url: https://lms.kau.edu.sa/learn/api/public/v1/lti/domainConfigs
+          status: 401
+        - url: https://lms.kau.edu.sa/learn/api/public/v1/lti/placements
+          status: 401
+        - url: https://lms.kau.edu.sa/webapps/blackboard/execute/blti/launchLink
+          status: 302
+      basis: >-
+        The LTI management endpoints are provisioned on KAU's tenancy — 401 rather than
+        404 means present-and-gated, and the BLTI launch link redirects rather than
+        404s. Recorded as present, not conformant: no LTI tool registration or platform
+        configuration could be read without credentials, and the implementation is
+        Blackboard Learn 4000.21.0-rel.28+435d029, Blackboard's engineering on
+        Blackboard's SaaS in eu-central-1.
+    - standard: caliper
+      name: Caliper Analytics
+      status: not-found
+      x-operator: tenant
+      basis: >-
+        Blackboard Learn supports Caliper as a product capability, but nothing on KAU's
+        tenancy evidences it being enabled and no Caliper endpoint responded. Not
+        claimed from vendor capability alone.
+
+summary:
+  institution_conformant:
+    - saml
+    - crossref
+  tenant_conformant:
+    - oai-pmh
+  tenant_present:
+    - lti
+  evidenced_negative:
+    - datacite
+    - orcid
+    - shibboleth
+  not_found:
+    - scim
+    - oneroster
+    - ed-fi
+    - qti
+    - caliper
+  note: >-
+    Two institution-operated conformances out of twelve regime standards. That is a low
+    number and it is the correct number. The temptation this cohort keeps presenting is
+    to credit oai-pmh — the best machine-readable surface in the whole profile — to the
+    university whose name is on the repository. It is Elsevier's, and it is recorded as
+    Elsevier's.

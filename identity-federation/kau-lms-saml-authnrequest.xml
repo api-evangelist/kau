@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><saml2p:AuthnRequest xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol" AssertionConsumerServiceURL="https://lms.kau.edu.sa/auth-saml/saml/SSO" Destination="https://iam.kau.edu.sa/oamfed/idp/samlv20" ForceAuthn="false" ID="a4j921ifd1jd9264ahd5ea027ji721" IsPassive="false" IssueInstant="2026-09-01T17:11:59.020Z" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Version="2.0"><saml2:Issuer xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">https://lms.kau.edu.sa/auth-saml/saml/SSO/alias/_7123_1</saml2:Issuer><ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference URI="#a4j921ifd1jd9264ahd5ea027ji721"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>H8xDPHWEGrgW8T3GTlrG7Dkrz3M=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>WzbsjvJlPN04W00uI43jZs4+SyOmrYHSmjEO6V5qT3yVXygqeqb/s9lyh+L73aDkoqU2G4SGuceWCx0VdtmGTWn2dkNH1srgzod5LxiQwe58jnajzf5lfUTTBJoWdzXKzse9gqcuRANue55i4fXmHxeJz+ohYsjNZ2aVlZB4YXJDcb1kWF2sDfrVoW4UIbKsUUwseCDlxakh92xJ3LAhBj4H+BWgGdHwjy74whfWquaUCsnLeBxZS9u1H2aLF4NXJimwlCSSXEjDc0OgTLfJm7JkUcXX9h3tfPYGmDRNYiQl8H8xMs78CSegpI47lZ0/AVaFFmFl+Mwx7NHmgl/ppA==</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIICrTCCAZWgAwIBAgIBATANBgkqhkiG9w0BAQsFADAaMRgwFgYDVQQDEw9CbGFja2JvYXJkIFNB
+TUwwHhcNMTcwNjAyMTgzNzM5WhcNMjcwNjAyMTgzNzM5WjAaMRgwFgYDVQQDEw9CbGFja2JvYXJk
+IFNBTUwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCEccL/ewA87GfCtt/YQ1K+Eetc
+K9BgT9vsQyK8PgtknRR/IdUv/m9gib3BLtK9AQQ0PfMP6uSbwONGhK9yberPIfnJ3Fmyx9uaLiK+
++O+9r/F1us+KvWzGH6Td8FxcoMx5GpcbHMMcUorWEFtRz0tAYYWQfuBO39EyvdNj7NDF8AYRN4vo
+kCToY17Oc47hbdtU7+ZtO9ZeTlAmmRex1sO3osWcxNV18Eqn3h/OwaRAoSUDLxuU5QXxAz7jrPoQ
+6+HGDlwIzfPR8EL5Gq8m9UdRW4m1gEDu9029PjCD1DCV+MAEgBSpTzSUcx3XIflDSVAH2mCWqKBj
+e3fPTk+O5CKbAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHYB3y7vFElIwE8qxRogYQl3iK5IaN0K
+HocZ7OC4oblW4BumF4xgCBN7iErXPHJ3ykjLdqItpBbzY88yNTheIXb8KzYgHEYad/IUk1omWhHT
+zBf27RouWFhp7c9v2jzEIuLJZ2BxilNjJL1qrU+IMdlc2QpKdgv+QTZnQWp3KqpqWxV8IWJj7FY/
+Zq3K/DkkZ5Ci5MZ90MdUe5CeqKFTEn62rNBWoTljWwGFcLUT0JDqymnYGop6J9XDHyPgZrWT5Tgg
+W70HXBh2spjnhZuSkOnhLq7iHtiSC4tJoRdQwVRsWf985CKtlk26DPXxVHZp1A0enq13tzRBax+B
+e1dwpX0=</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature></saml2p:AuthnRequest>

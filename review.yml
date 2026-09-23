@@ -3,8 +3,101 @@ name: King Abdulaziz University
 description: King Abdulaziz University public developer/API footprint review for APIs.json cataloging.
 url: https://raw.githubusercontent.com/api-evangelist/kau/refs/heads/main/review.yml
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 reviews:
+  - date: '2026-09-01'
+    rating: 4
+    summary: >-
+      Re-profiled under the API Evangelist university pipeline, which settles WHO OPERATES
+      each surface before saving anything. The 2026-06-03 review is corrected on its two
+      central findings. It recorded KAU's Open Data page as "a beta placeholder with no
+      datasets, endpoints, or downloads"; the page in fact publishes eight live
+      https://opendata.kau.edu.sa/api/StudentsData API invocations and a decade of dataset
+      downloads. And it recorded KAU's identity infrastructure as merely "gated"; KAU
+      operates its own SAML 2.0 identity provider, evidenced during this run by a freshly
+      signed AuthnRequest its Blackboard tenancy addressed to
+      https://iam.kau.edu.sa/oamfed/idp/samlv20 (the earlier review named
+      /oamsso-bin/login-fed.pl, which is the OAM login entry point, not the SAML protocol
+      endpoint).
+
+      KAU therefore has two genuinely institution-operated surfaces, which is more than
+      most of this cohort. It also has three tenant relationships that are recorded but
+      whose contracts are deliberately NOT claimed as KAU's: its journals run on Elsevier's
+      Digital Commons at kauj.researchcommons.org, complete with a working OAI-PMH 2.0 data
+      provider back to 2000 administered from dc-support@elsevier.com; its LMS is a
+      Blackboard Learn SaaS tenancy at lms.kau.edu.sa; and its scientific platform at
+      libsp.kau.edu.sa is an Al Manhal tenancy. The OAI-PMH endpoint is the best
+      machine-readable surface associated with this university and it is Elsevier's
+      engineering, not KAU's.
+
+      Registry memberships verified: Crossref member 2709 (prefix 10.4197, 1,920 DOIs) and
+      53473, plus ROR https://ror.org/02ma4wv74 and Crossref Funder ID 501100004054.
+      Evidenced negatives: no DataCite account despite 1,249 DOIs affiliated to KAU's ROR,
+      no ORCID member organisation, no Shibboleth, no membership of Saudi Arabia's Maeen
+      identity federation or eduGAIN although 38 Saudi entities are registered, no GitHub
+      organisation, no developer portal, and no API key or client registration anywhere.
+
+      One limitation stated plainly: every host in KAU's self-hosted 192.162.72.0/24 block
+      refused connections on 443 from two independent network egresses, while KAU's
+      CloudFront-fronted www host and all three vendor tenancies answered normally. That is
+      a geographic restriction on KAU's own estate rather than a dead service or a block on
+      us — the IdP was proven live indirectly, and the Open Data API's last verified 200 is
+      an Internet Archive capture of 2025-04-17 returning 1,886 records, corroborated by
+      seven further 200 captures across 2024. Artifacts derived from it are marked derived,
+      not probed-live.
+    endpoints:
+      - url: https://www.kau.edu.sa/page/open-data
+        status: 200
+        note: >-
+          Publishes eight opendata.kau.edu.sa API invocations, an Open Data API user guide
+          and a licence. Corrects the 2026-06-03 finding of an empty placeholder.
+      - url: https://opendata.kau.edu.sa/api/StudentsData?type=u&year=2023&semester=1
+        status: 0
+        note: >-
+          Institution-operated open data API. Unreachable on 443 from two egresses; DNS
+          resolves to 192.162.72.12. Last verified 200 via Internet Archive 2025-04-17,
+          application/json, 1,886 aggregate records.
+      - url: https://lms.kau.edu.sa/auth-saml/saml/metadata?apId=_7123_1
+        status: 200
+        note: >-
+          Returns a signed SAML 2.0 AuthnRequest whose Destination is
+          https://iam.kau.edu.sa/oamfed/idp/samlv20 — the evidence for KAU's own IdP.
+      - url: https://lms.kau.edu.sa/learn/api/public/v1/system/version
+        status: 200
+        note: Blackboard Learn 4000.21.0-rel.28+435d029 on KAU's tenancy. Tenant, not institution.
+      - url: https://lms.kau.edu.sa/learn/api/public/v1/courses
+        status: 401
+        note: Learn REST API provisioned and gated. A 401 rather than 404 is the finding.
+      - url: https://kauj.researchcommons.org/do/oai/?verb=Identify
+        status: 200
+        note: >-
+          OAI-PMH 2.0, repositoryName "King Abdulaziz University Journals", adminEmail
+          dc-support@elsevier.com. Tenant relationship recorded; vendor contract not saved.
+      - url: https://libsp.kau.edu.sa/
+        status: 200
+        note: King Abdulaziz Scientific Platform; CNAMEs to aws-prod-lb.almanhal.com. Al Manhal tenancy.
+      - url: https://api.crossref.org/members/2709
+        status: 200
+        note: KAU Scientific Publishing Centre, prefix 10.4197, 1,920 DOIs. Real membership.
+      - url: https://ror.org/02ma4wv74
+        status: 200
+        note: ROR registration, domain kau.edu.sa, Funder ID 501100004054.
+      - url: https://api.datacite.org/clients?query=abdulaziz
+        status: 200
+        note: meta.total = 0. No DataCite membership, despite 1,249 DOIs affiliated to KAU's ROR.
+      - url: https://technical.edugain.org/api.php?action=list_entities&format=json
+        status: 200
+        note: 13,200 entities, 0 for kau.edu.sa. 38 Saudi entities registered by maeen.sa.
+      - url: https://www.kau.edu.sa/GetFile.aspx?id=273063&fn=g2013.xls
+        status: 404
+        note: >-
+          Dataset download linked from KAU's own Open Data page. Every GetFile.aspx URL on
+          that page is dead after the site's migration to Next.js — the spreadsheet half of
+          the open data programme is broken while the API half is not.
+      - url: https://sso.kau.edu.sa/
+        status: 0
+        note: Unreachable from this run; DNS resolves to 192.162.72.15. Linked from KAU's live page.
+
   - date: '2026-06-03'
     rating: 1
     summary: >-

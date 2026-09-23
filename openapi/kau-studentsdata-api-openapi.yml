@@ -1,0 +1,165 @@
+openapi: 3.2.0
+info:
+  title: King Abdulaziz University Open Data Students Data API
+  version: '1.0'
+  summary: KAU's institution-operated open data web service for student enrollment and graduation statistics.
+  description: The web-service half of King Abdulaziz University's Open Data programme.
+  contact:
+    name: King Abdulaziz University
+    url: https://www.kau.edu.sa/page/open-data
+  license:
+    name: King Abdulaziz University Open Data Licence
+    url: https://www.kau.edu.sa/page/open-data
+  termsOfService: https://www.kau.edu.sa/page/open-data
+servers:
+- url: https://opendata.kau.edu.sa
+  description: King Abdulaziz University open data service, self-hosted in KAU's own 192.162.72.0/24 address block. Not reachable from outside Saudi Arabia during this run; see x-provenance.x-liveness-caveat.
+security: []
+tags:
+- name: StudentsData
+  description: Aggregate student enrollment and graduation statistics.
+paths:
+  /api/StudentsData:
+    get:
+      tags:
+      - StudentsData
+      operationId: getStudentsData
+      summary: Retrieve aggregate student statistics
+      description: Returns an array of aggregate student counts. Called with `type` alone the service returns the full series KAU publishes for that population; adding `year` and `semester` narrows the result to one academic term. All eight parameter combinations linked from KAU's Open Data page are listed in `x-documented-invocations` below.
+      security: []
+      parameters:
+      - name: type
+        in: query
+        required: true
+        description: Student population selector. Both permitted values are taken verbatim from the URLs KAU publishes; KAU's page does not define the letters in prose. In the archived `type=u` response every record carried a postgraduate `educationalLevel` (ماجستير / دكتوراه / دبلوم عالي), so the mapping of letter to population is recorded as observed rather than asserted.
+        schema:
+          type: string
+          enum:
+          - u
+          - g
+        examples:
+          postgraduate:
+            value: u
+            summary: Population observed to return postgraduate levels in the 2025-04-17 capture.
+          graduates:
+            value: g
+            summary: Second published population selector.
+      - name: year
+        in: query
+        required: false
+        description: Gregorian academic year. Only `2023` appears in KAU's published URLs; the service is assumed to accept other years but no other year has been observed returning 200, so none is claimed.
+        schema:
+          type: string
+          pattern: ^[0-9]{4}$
+        example: '2023'
+      - name: semester
+        in: query
+        required: false
+        description: Academic term within `year`. KAU publishes semesters 1-3 for `type=u` and 1-4 for `type=g`.
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        example: '1'
+      responses:
+        '200':
+          description: Array of aggregate student count records. The 2025-04-17 capture of `type=u&year=2023&semester=1` returned 1,886 records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentsDataResponse'
+              examples:
+                postgraduateSemesterOne:
+                  summary: First records of the archived 2025-04-17 response
+                  externalValue: examples/kau-open-data-students-example.json
+      x-documented-invocations:
+      - https://opendata.kau.edu.sa/api/StudentsData?type=u
+      - https://opendata.kau.edu.sa/api/StudentsData?type=u&year=2023&semester=1
+      - https://opendata.kau.edu.sa/api/StudentsData?type=u&year=2023&semester=2
+      - https://opendata.kau.edu.sa/api/StudentsData?type=u&year=2023&semester=3
+      - https://opendata.kau.edu.sa/api/StudentsData?type=g
+      - https://opendata.kau.edu.sa/api/StudentsData?type=g&year=2023&semester=1
+      - https://opendata.kau.edu.sa/api/StudentsData?type=g&year=2023&semester=2
+      - https://opendata.kau.edu.sa/api/StudentsData?type=g&year=2023&semester=3
+      - https://opendata.kau.edu.sa/api/StudentsData?type=g&year=2023&semester=4
+      x-undocumented:
+        error_model: KAU documents no error responses and none was observed. No 4xx or 5xx response is described here because none has been seen; inventing one would credit KAU with a contract it has not published.
+        rate_limits: No rate limit is documented or advertised.
+        pagination: No pagination parameter is documented and the archived response returned all 1,886 records in one unpaged array.
+components:
+  schemas:
+    StudentsDataRecord:
+      type: object
+      description: 'One aggregate count: the number of students sharing a single combination of term, faculty, department, level, study type, gender, nationality and admission cohort. Every property below was present on all 1,886 records of the archived response, with the JSON type shown.'
+      required:
+      - semesterCode
+      - numberOfStudents
+      - studyingType
+      - educationalLevel
+      - faculty
+      - department
+      - gender
+      - nationality
+      - admissionYear
+      - admissionTerm
+      - semesterDescription
+      properties:
+        semesterCode:
+          type: string
+          description: Term code, year followed by term number. Only '202310' observed.
+          example: '202310'
+        numberOfStudents:
+          type: integer
+          description: Count of students in this group. The only numeric field in the record.
+          example: 70
+        studyingType:
+          type: string
+          description: Mode of study, in Arabic.
+          example: مشروع بحثي - خاص
+        educationalLevel:
+          type: string
+          description: Award level, in Arabic. Observed values in the archived response were ماجستير (master's), دكتوراه (doctorate) and دبلوم عالي (higher diploma).
+          example: ماجستير
+        faculty:
+          type: string
+          description: Faculty name, in Arabic.
+          example: الآداب و العلوم الإنسانية
+        department:
+          type: string
+          description: Department name, in Arabic.
+          example: الخدمة الاجتماعية
+        gender:
+          type: string
+          description: Gender label, in Arabic — ذكر (male) or أنثى (female).
+          example: ذكر
+        nationality:
+          type: string
+          description: Nationality label, in Arabic.
+          example: سعودي
+        admissionYear:
+          type: string
+          description: Gregorian year of admission, as a string.
+          example: '2022'
+        admissionTerm:
+          type: string
+          description: Term of admission, as a string.
+          example: '10'
+        semesterDescription:
+          type: string
+          description: Human-readable term name, in Arabic.
+          example: الفصل الدراسي الاول
+    StudentsDataResponse:
+      type: array
+      description: Aggregate student count records, unpaged.
+      items:
+        $ref: '#/components/schemas/StudentsDataRecord'
+x-operator: institution
+x-operator-basis: opendata.kau.edu.sa is a host under kau.edu.sa, King Abdulaziz University's own registrable domain, resolving to 192.162.72.12 inside the university's own address block (the same /24 that carries sso.kau.edu.sa 192.162.72.15, iam.kau.edu.sa 192.162.72.96, research.kau.edu.sa 192.162.72.204 and journals.kau.edu.sa 192.162.72.203). The endpoints are published by KAU itself on its own Open Data page at https://www.kau.edu.sa/page/open-data (HTTP 200) and its Arabic twin https://kau.edu.sa/ar/page/open-data (HTTP 200), under a KAU open-data licence. No vendor name, vendor contact, or third-party host appears anywhere in this surface. This is King Abdulaziz University's own engineering, not a platform it rents.
+x-provenance:
+  generated: '2026-09-01'
+  method: derived
+  source: 'Derived, not fetched from a published specification — King Abdulaziz University publishes no OpenAPI. Two independent sources were combined. (1) The endpoint inventory, parameter names and permitted values are transcribed verbatim from the eight `https://opendata.kau.edu.sa/api/StudentsData` URLs that KAU itself links on its Open Data page, https://www.kau.edu.sa/page/open-data (HTTP 200, fetched 2026-09-01) and identically on https://kau.edu.sa/ar/page/open-data (HTTP 200). (2) The response shape is read off a real 200 response body, not invented: the Internet Archive snapshot https://web.archive.org/web/20250417190254id_/https://opendata.kau.edu.sa/api/StudentsData?type=u&year=2023&semester=1 (HTTP 200, application/json, 1,886 records), retrieved 2026-09-01. The Internet Archive CDX index records independent HTTP 200 application/json captures for seven further parameter combinations across 2024-03 to 2024-04, so the surface is corroborated across dates, not by a single snapshot.'
+  x-liveness-caveat: opendata.kau.edu.sa could NOT be reached from this run. It resolves normally in DNS but every request from two independent network egresses returned a connection timeout or ECONNREFUSED on 443, as did every other host in KAU's 192.162.72.0/24 block, while www.kau.edu.sa (on AWS CloudFront, 3.173.x) answered 200 throughout. The consistent pattern — DNS resolves, KAU's own address block refuses, KAU's CDN-fronted host serves — reads as a geographic access restriction on KAU's self-hosted estate rather than a dead service, but this run cannot prove that. The last verified HTTP 200 from this API is the 2025-04-17 Internet Archive capture. This specification is therefore recorded as derived and NOT as probed-live.

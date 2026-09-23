@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/kau/refs/heads/main/json-schema/kau-students-data-schema.json",
+  "title": "King Abdulaziz University Open Data — StudentsData record",
+  "description": "Aggregate student count record returned by https://opendata.kau.edu.sa/api/StudentsData. One record is the number of students sharing a single combination of term, faculty, department, level, study type, gender, nationality and admission cohort. Records are aggregate counts only — no property identifies an individual, so the payload carries no personal data.",
+  "x-operator": "institution",
+  "x-provenance": {
+    "generated": "2026-09-01",
+    "method": "derived",
+    "source": "Derived from a real 200 response body, not from a published schema — King Abdulaziz University publishes none. Every property, JSON type and requiredness below was computed across all 1,886 records of the Internet Archive capture https://web.archive.org/web/20250417190254id_/https://opendata.kau.edu.sa/api/StudentsData?type=u&year=2023&semester=1 (HTTP 200, application/json), retrieved 2026-09-01. Every one of the eleven properties was present on every record, and each held exactly one JSON type across the whole set; that is why all eleven are marked required and none is nullable.",
+    "derived_from": "openapi/_original/kau-open-data-api-openapi.yml"
+  },
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/StudentsDataRecord"
+  },
+  "$defs": {
+    "StudentsDataRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "semesterCode",
+        "numberOfStudents",
+        "studyingType",
+        "educationalLevel",
+        "faculty",
+        "department",
+        "gender",
+        "nationality",
+        "admissionYear",
+        "admissionTerm",
+        "semesterDescription"
+      ],
+      "properties": {
+        "semesterCode": {
+          "type": "string",
+          "description": "Term code: four-digit Gregorian year followed by a two-digit term number. Only '202310' was observed in the captured response.",
+          "pattern": "^[0-9]{6}$",
+          "examples": ["202310"]
+        },
+        "numberOfStudents": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of students in this group. The only numeric property in the record.",
+          "examples": [70, 65, 59]
+        },
+        "studyingType": {
+          "type": "string",
+          "description": "Mode of study, in Arabic.",
+          "examples": ["مشروع بحثي - خاص", "برسالة جامعية - عام"]
+        },
+        "educationalLevel": {
+          "type": "string",
+          "description": "Award level, in Arabic. The three values observed across the captured response were ماجستير (master's), دكتوراه (doctorate) and دبلوم عالي (higher diploma). Recorded as observed values, not as a closed enum, because KAU documents no value list.",
+          "examples": ["ماجستير", "دكتوراه", "دبلوم عالي"]
+        },
+        "faculty": {
+          "type": "string",
+          "description": "Faculty name, in Arabic.",
+          "examples": ["الآداب و العلوم الإنسانية", "الحقوق", "الاقتصاد والادارة"]
+        },
+        "department": {
+          "type": "string",
+          "description": "Department name, in Arabic.",
+          "examples": ["الخدمة الاجتماعية", "الأنظمة(القانون)"]
+        },
+        "gender": {
+          "type": "string",
+          "description": "Gender label, in Arabic — ذكر (male) or أنثى (female).",
+          "examples": ["ذكر", "أنثى"]
+        },
+        "nationality": {
+          "type": "string",
+          "description": "Nationality label, in Arabic.",
+          "examples": ["سعودي"]
+        },
+        "admissionYear": {
+          "type": "string",
+          "description": "Gregorian year of admission, carried as a string rather than a number.",
+          "pattern": "^[0-9]{4}$",
+          "examples": ["2022", "2023"]
+        },
+        "admissionTerm": {
+          "type": "string",
+          "description": "Term of admission, carried as a string rather than a number.",
+          "examples": ["10"]
+        },
+        "semesterDescription": {
+          "type": "string",
+          "description": "Human-readable term name, in Arabic.",
+          "examples": ["الفصل الدراسي الاول"]
+        }
+      }
+    }
+  }
+}

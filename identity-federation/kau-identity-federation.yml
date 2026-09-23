@@ -1,0 +1,121 @@
+specification: API Evangelist Identity Federation
+specificationVersion: '0.1'
+provider: King Abdulaziz University
+providerId: kau
+generated: '2026-09-01'
+method: probed
+source: >-
+  Three live probes on 2026-09-01. (1) https://lms.kau.edu.sa/ (HTTP 200) redirects to
+  https://lms.kau.edu.sa/auth-saml/saml/login?apId=_7123_1, and that endpoint returns an
+  auto-submitting HTML POST form whose action is https://iam.kau.edu.sa/oamfed/idp/samlv20
+  carrying a base64 SAMLRequest; decoded verbatim to identity-federation/kau-lms-saml-authnrequest.xml.
+  (2) The eduGAIN technical API https://technical.edugain.org/api.php?action=list_entities
+  (HTTP 200, 13,200 entities) and .../action=list_feds (HTTP 200), parsed for every entity
+  registered by https://www.maeen.sa and for any entity naming kau.edu.sa. (3) DNS
+  resolution of every kau.edu.sa host involved.
+description: >-
+  King Abdulaziz University's SAML 2.0 identity surface. This is the strongest
+  institution-operated finding in the profile, and it was reached indirectly — the IdP
+  itself is unreachable from outside Saudi Arabia, so its existence, its exact protocol
+  endpoint and its live operational state are all established from a service provider
+  that talks to it rather than from the IdP's own metadata.
+
+  The headline result has two halves that point opposite ways. KAU genuinely operates
+  its own SAML 2.0 identity provider on its own domain and its own address space — no
+  managed-IdP platform, no vendor CNAME, no rented federation infrastructure. But KAU is
+  NOT a member of Maeen, Saudi Arabia's national identity federation, and is therefore
+  absent from eduGAIN, while thirty-eight Saudi entities including King Saud University,
+  KFUPM, KAUST and King Khalid University are present. KAU runs federation for itself
+  and does not federate outward. Both halves are recorded, because the second is a
+  measurement about KAU, not a gap in this profile.
+
+identity_provider:
+  entityID_endpoint: https://iam.kau.edu.sa/oamfed/idp/samlv20
+  protocol: SAML 2.0
+  binding: urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST
+  software: Oracle Access Manager Federation
+  software_basis: >-
+    The /oamfed/idp/samlv20 path is Oracle Access Manager's federation servlet, and the
+    companion host advertises OAM's classic /oamsso-bin/login-fed.pl login endpoint.
+    Oracle is the software vendor here, not the operator — KAU runs the deployment.
+  x-operator: institution
+  operator_basis: >-
+    iam.kau.edu.sa is under kau.edu.sa, KAU's own registrable domain, and resolves to
+    192.162.72.96 — inside the same self-hosted /24 as sso.kau.edu.sa (192.162.72.15),
+    opendata.kau.edu.sa (192.162.72.12), research.kau.edu.sa (192.162.72.204) and
+    journals.kau.edu.sa (192.162.72.203). There is no CNAME to a managed identity
+    platform, which is the pattern that demoted Monash's and Melbourne's IdPs to tenant.
+    KAU's identity infrastructure is KAU's.
+  reachability:
+    status: unreachable_from_this_run
+    detail: >-
+      Direct requests to https://iam.kau.edu.sa/oamfed/idp/samlv20 and to
+      https://sso.kau.edu.sa/ timed out on 443 from two independent network egresses,
+      as did every other host in 192.162.72.0/24, while www.kau.edu.sa on AWS CloudFront
+      answered 200 throughout. This reads as a geographic restriction on KAU's
+      self-hosted estate rather than a dead service.
+    liveness_evidence: >-
+      The IdP is nonetheless demonstrably live and in production use. KAU's Blackboard
+      tenancy generated a freshly signed, freshly timestamped AuthnRequest addressed to
+      it during this run (IssueInstant 2026-09-01T17:11:59.020Z, RSA-SHA256 signature,
+      embedded X.509 key). A service provider does not sign and post an authentication
+      request to an endpoint it is not actually federating with.
+  local_copy: identity-federation/kau-lms-saml-authnrequest.xml
+  metadata_published: false
+  metadata_note: >-
+    No SAML EntityDescriptor for KAU could be retrieved. The IdP's own metadata URL is
+    behind the same geographic restriction, and KAU publishes no entity through any
+    federation aggregate. This is why the profile records the protocol endpoint rather
+    than an entityID: the endpoint is evidenced, an entityID is not.
+
+service_providers:
+  - name: King Abdulaziz University Blackboard Learn
+    entityID: https://lms.kau.edu.sa/auth-saml/saml/SSO/alias/_7123_1
+    assertion_consumer_service: https://lms.kau.edu.sa/auth-saml/saml/SSO
+    host: lms.kau.edu.sa
+    x-operator: tenant
+    operator_basis: >-
+      lms.kau.edu.sa is a KAU hostname but CNAMEs to
+      learn.685db858b7b43.euc1.prod-01.core.blackboard.com and terminates on Amazon
+      CloudFront; the response headers carry x-blackboard-product and
+      x-blackboard-appserver naming a eu-central-1 Blackboard SaaS node. KAU's identity,
+      Blackboard's infrastructure.
+    status: 200
+    describes: >-
+      The SP that proves the IdP. Its signed AuthnRequest is the evidence for
+      identity_provider above, and it is also the reason the SAML conformance in
+      conformance/kau-conformance.yml is credited to KAU rather than to Blackboard: the
+      request is Blackboard's, but the endpoint it is addressed to is KAU's.
+
+federation_membership:
+  national_federation:
+    name: Maeen Identity Federation
+    abbreviation: SA-MIF
+    registration_authority: https://www.maeen.sa
+    interfederation: eduGAIN
+    eduGAIN_member_since: '2019-07-02'
+    kau_is_member: false
+    basis: >-
+      Zero entities naming King Abdulaziz University or kau.edu.sa appear in the eduGAIN
+      entity list (13,200 entities, HTTP 200, fetched 2026-09-01). Thirty-eight entities
+      are registered by https://www.maeen.sa, including King Saud University
+      (SSO.ksu.edu.sa), King Fahd University of Petroleum and Minerals, King Abdullah
+      University of Science and Technology, King Khalid University, Imam Abdulrahman Bin
+      Faisal University, Prince Sattam bin Abdulaziz University, Taif University, Qassim
+      University and King Abdulaziz City for Science and Technology — a separate
+      organisation from this university despite the shared name. King Abdulaziz
+      University itself is absent.
+    evidence:
+      - url: https://technical.edugain.org/api.php?action=list_entities&format=json
+        status: 200
+        note: 13,200 entities parsed; 0 matches for kau.edu.sa.
+      - url: https://technical.edugain.org/api.php?action=list_feds&format=json
+        status: 200
+        note: SA-MIF present, production since 2019-07-02.
+  interpretation: >-
+    Not a defect to be fixed by this profile, and not a reason to withhold the
+    institution-operated finding above. KAU operates SAML; it does not publish SAML
+    metadata to a federation. The practical consequence is that KAU's identity surface
+    is unusable by any external relying party — a real and reportable characteristic of
+    its programmable footprint, and the single clearest thing KAU could change to make
+    that footprint interoperable.

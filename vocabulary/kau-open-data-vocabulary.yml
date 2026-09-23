@@ -1,0 +1,188 @@
+specification: API Evangelist Vocabulary
+specificationVersion: '0.1'
+provider: King Abdulaziz University
+providerId: kau
+generated: '2026-09-01'
+method: derived
+source: >-
+  Computed across all 1,886 records of the Internet Archive capture
+  https://web.archive.org/web/20250417190254id_/https://opendata.kau.edu.sa/api/StudentsData?type=u&year=2023&semester=1
+  (HTTP 200, application/json, capture date 2025-04-17), retrieved 2026-09-01. Every
+  term below appeared in that response; nothing is invented and nothing is extrapolated
+  from other KAU material. English glosses are translations supplied by API Evangelist
+  for readability — KAU publishes no English value list, so the Arabic term is the
+  authoritative one in every case.
+x-operator: institution
+describes: openapi/_original/kau-open-data-api-openapi.yml
+description: >-
+  The controlled vocabulary King Abdulaziz University's Open Data API actually returns.
+  It is worth recording separately from the schema because the API is bilingual in a
+  one-sided way: KAU serves the same Arabic value set from both its Arabic and its
+  English surfaces, and publishes no code list, no enum and no translation table
+  anywhere. Any consumer outside Arabic has to reconstruct this vocabulary from response
+  bodies, which is precisely what this file is.
+
+  Six of the eleven record properties draw on small closed value sets; two — faculty and
+  department — are large institutional lists. Both are enumerated below because they are
+  the university's own organisational vocabulary and are not published in machine-readable
+  form anywhere else in KAU's footprint.
+
+coverage:
+  records_analyzed: 1886
+  students_represented: 9291
+  scope: >-
+    One term (202310) of one population (type=u), which is the only combination for
+    which a full response body could be retrieved. Value sets for other terms may be
+    wider. Treat these as observed values, not as a closed specification.
+
+terms:
+  educationalLevel:
+    distinct: 3
+    closed_set_confidence: high
+    values:
+      - term: ماجستير
+        gloss: Master's
+        records: 1325
+      - term: دكتوراه
+        gloss: Doctorate
+        records: 541
+      - term: دبلوم عالي
+        gloss: Higher diploma
+        records: 20
+    note: >-
+      All three values are postgraduate. This is the evidence behind the OpenAPI's
+      refusal to define `type=u` as "undergraduate" — the letter is not glossed by KAU,
+      and the data it returns is postgraduate.
+
+  studyingType:
+    distinct: 6
+    closed_set_confidence: moderate
+    values:
+      - term: برسالة جامعية - عام
+        gloss: By thesis — general track
+        records: 1550
+      - term: مشروع بحثي - خاص
+        gloss: Research project — private track
+        records: 158
+      - term: مشروع بحثي - عام
+        gloss: Research project — general track
+        records: 157
+      - term: برنامج - عام
+        gloss: Programme — general track
+        records: 19
+      - term: تعليم عن بعد
+        gloss: Distance education
+        records: 1
+      - term: برنامج - خاص
+        gloss: Programme — private track
+        records: 1
+    note: >-
+      The عام / خاص (general / private) suffix is a funding-track distinction, and it
+      recurs across three of the six values. Two values appear on a single record each,
+      so the set is probably not exhaustive across other terms.
+
+  gender:
+    distinct: 2
+    closed_set_confidence: high
+    values:
+      - term: ذكر
+        gloss: Male
+        records: 1087
+      - term: أنثى
+        gloss: Female
+        records: 799
+
+  nationality:
+    distinct: 2
+    closed_set_confidence: high
+    values:
+      - term: سعودي
+        gloss: Saudi
+        records: 1286
+      - term: غير سعودي
+        gloss: Non-Saudi
+        records: 600
+    note: >-
+      A binary Saudi / non-Saudi split, not a country list. No individual nationality is
+      disclosed, which is consistent with the aggregate, non-personal design of the
+      dataset.
+
+  semesterDescription:
+    distinct: 2
+    closed_set_confidence: moderate
+    values:
+      - term: الفصل الدراسي الاول
+        gloss: First semester
+        records: 1521
+        pairs_with_admissionTerm: '10'
+      - term: الفصل الدراسي الثاني
+        gloss: Second semester
+        records: 365
+        pairs_with_admissionTerm: '20'
+    note: >-
+      admissionTerm is the numeric coding of the same concept — 10 for first semester,
+      20 for second — and the two fields agreed on every one of the 1,886 records. KAU
+      publishes the coding nowhere; it is recorded here because a consumer joining on
+      admissionTerm needs it.
+
+  semesterCode:
+    distinct: 1
+    values:
+      - term: '202310'
+        gloss: Academic year 2023, first term
+        records: 1886
+    note: >-
+      Composed as the four-digit Gregorian year followed by the two-digit term code, so
+      the same 10/20 coding as admissionTerm. Only one value observed, because the query
+      pinned one term.
+
+  faculty:
+    distinct: 30
+    closed_set_confidence: high
+    note: >-
+      KAU's faculty and institute list as the university itself codes it. Five entries
+      carry a رابغ (Rabigh) suffix, marking KAU's Rabigh branch campus as a separate
+      organisational unit from the Jeddah faculty of the same name — a real structural
+      fact about the university that appears in no other machine-readable KAU source.
+      Four entries are معهد (institutes) rather than faculties.
+    values:
+      - {term: 'الآداب و العلوم الإنسانية', gloss: 'Arts and Humanities'}
+      - {term: 'الأرصادوالبيئة وزراعة م.الجافة', gloss: 'Meteorology, Environment and Arid Land Agriculture'}
+      - {term: 'الاتصال والإعلام', gloss: 'Communication and Media'}
+      - {term: 'الاعمال - رابغ', gloss: 'Business — Rabigh'}
+      - {term: 'الاقتصاد والادارة', gloss: 'Economics and Administration'}
+      - {term: 'التمريض', gloss: 'Nursing'}
+      - {term: 'الحاسبات وتقنية المعلومات', gloss: 'Computing and Information Technology'}
+      - {term: 'الحاسبات وتقنية المعلومات-رابغ', gloss: 'Computing and Information Technology — Rabigh'}
+      - {term: 'الحقوق', gloss: 'Law'}
+      - {term: 'الدراسات البحرية', gloss: 'Maritime Studies'}
+      - {term: 'الدراسات العليا التربوية', gloss: 'Graduate Studies in Education'}
+      - {term: 'السياحة', gloss: 'Tourism'}
+      - {term: 'الصيدلة', gloss: 'Pharmacy'}
+      - {term: 'الطب', gloss: 'Medicine'}
+      - {term: 'العلوم', gloss: 'Science'}
+      - {term: 'العلوم الطبية التطبيقية', gloss: 'Applied Medical Sciences'}
+      - {term: 'العلوم و الآداب - رابغ', gloss: 'Science and Arts — Rabigh'}
+      - {term: 'العمارة والتخطيط', gloss: 'Architecture and Planning'}
+      - {term: 'الهندسة', gloss: 'Engineering'}
+      - {term: 'الهندسة - رابغ', gloss: 'Engineering — Rabigh'}
+      - {term: 'تصاميم البيئة', gloss: 'Environmental Design'}
+      - {term: 'طب الأسنان', gloss: 'Dentistry'}
+      - {term: 'علوم الإنسان والتصاميم', gloss: 'Human Sciences and Design'}
+      - {term: 'علوم الارض', gloss: 'Earth Sciences'}
+      - {term: 'علوم البحار', gloss: 'Marine Sciences'}
+      - {term: 'علوم التأهيل الطبي', gloss: 'Medical Rehabilitation Sciences'}
+      - {term: 'معهد الأميرخالدالفيصل للإعتدال', gloss: 'Prince Khalid Al-Faisal Institute for Moderation'}
+      - {term: 'معهد الاقتصاد الإسلامي', gloss: 'Islamic Economics Institute'}
+      - {term: 'معهد اللغة الانجليزية', gloss: 'English Language Institute'}
+      - {term: 'معهد ل.العربية للناطقين بغيرها', gloss: 'Institute of Arabic for Non-Native Speakers'}
+
+  department:
+    distinct: 142
+    closed_set_confidence: moderate
+    note: >-
+      142 distinct department names were observed, nested under the 30 faculties above.
+      Not enumerated here: the list is long, it is scoped to one term, and unlike the
+      faculty list it is likely to be incomplete — a department with no postgraduate
+      enrollment in term 202310 cannot appear. Read it from the response body via
+      json-schema/kau-students-data-schema.json rather than from a list in this file.
