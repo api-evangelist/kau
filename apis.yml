@@ -164,6 +164,7 @@ apis:
   - type: Examples
     url: examples/kau-lms-system-version-example.json
 - aid: kau:scientific-platform
+  x-published: false
   name: King Abdulaziz Scientific Platform (Al Manhal tenancy)
   x-operator: tenant
   x-operator-basis: >-
