@@ -91,11 +91,6 @@ paths:
         pagination: No pagination parameter is documented and the archived response returned all 1,886 records in one unpaged array.
 components:
   schemas:
-    StudentsDataResponse:
-      type: array
-      description: Aggregate student count records, unpaged.
-      items:
-        $ref: '#/components/schemas/StudentsDataRecord'
     StudentsDataRecord:
       type: object
       description: 'One aggregate count: the number of students sharing a single combination of term, faculty, department, level, study type, gender, nationality and admission cohort. Every property below was present on all 1,886 records of the archived response, with the JSON type shown.'
@@ -156,6 +151,11 @@ components:
           type: string
           description: Human-readable term name, in Arabic.
           example: الفصل الدراسي الاول
+    StudentsDataResponse:
+      type: array
+      description: Aggregate student count records, unpaged.
+      items:
+        $ref: '#/components/schemas/StudentsDataRecord'
 x-operator: institution
 x-operator-basis: opendata.kau.edu.sa is a host under kau.edu.sa, King Abdulaziz University's own registrable domain, resolving to 192.162.72.12 inside the university's own address block (the same /24 that carries sso.kau.edu.sa 192.162.72.15, iam.kau.edu.sa 192.162.72.96, research.kau.edu.sa 192.162.72.204 and journals.kau.edu.sa 192.162.72.203). The endpoints are published by KAU itself on its own Open Data page at https://www.kau.edu.sa/page/open-data (HTTP 200) and its Arabic twin https://kau.edu.sa/ar/page/open-data (HTTP 200), under a KAU open-data licence. No vendor name, vendor contact, or third-party host appears anywhere in this surface. This is King Abdulaziz University's own engineering, not a platform it rents.
 x-provenance:
