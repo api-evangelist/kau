@@ -65,6 +65,17 @@ tags:
   - Open Data
   - Research Repository
   - Identity Federation
+  - LMS
+  - Saudi Arabia
+  - Middle East
+tags_raw:
+  - University
+  - Higher Education
+  - Education
+  - Research
+  - Open Data
+  - Research Repository
+  - Identity Federation
   - Learning Management
   - Saudi Arabia
   - Middle East
@@ -152,6 +163,11 @@ apis:
   humanURL: https://lms.kau.edu.sa/
   baseURL: https://lms.kau.edu.sa/learn/api/public/v1
   tags:
+  - LMS
+  - LTI
+  - SAML
+  - Education
+  tags_raw:
   - Learning Management
   - LTI
   - SAML
