@@ -1,4 +1,4 @@
-# King Abdulaziz University (kau)
+# King Abdulaziz University
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,110 +64,128 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-King Abdulaziz University (KAU) is a large public research university in Jeddah, Saudi Arabia, serving over 100,000 students across 30 faculties and institutes including a branch campus at Rabigh. This repository catalogs KAU's public developer/API footprint as an [APIs.json](https://apisjson.org) profile for the API Evangelist network.
+King Abdulaziz University (KAU) is a large public research university in Jeddah, Saudi Arabia, serving over 100,000 students across 30 faculties and institutes including a branch campus at Rabigh. Its programmable footprint is small but, unusually for this cohort, partly its own. KAU operates a genuine institution-run Open Data API at opendata.kau.edu.sa returning aggregate student enrollment and graduation statistics as JSON over eight documented, unauthenticated GET invocations, and it operates its own SAML 2.0 identity provider at iam.kau.edu.sa/oamfed/idp/samlv20 on Oracle Access Manager Federation, self-hosted in KAU's own 192.162.72.0/24 address block with no managed-IdP vendor underneath it. Everything else that looks like a KAU API belongs to somebody else. The best machine-readable surface associated with the university — a complete OAI-PMH 2.0 data provider carrying its journals back to 2000 — is Elsevier's Digital Commons at kauj.researchcommons.org, administered from dc-support@elsevier.com. Its learning platform is a Blackboard Learn SaaS tenancy on lms.kau.edu.sa, and its scientific platform at libsp.kau.edu.sa is an Al Manhal tenancy. All three are recorded here as tenant relationships and none of their contracts is claimed as KAU's. KAU is a Crossref member in its own right under DOI prefix 10.4197 and is registered in ROR. It holds no DataCite account, publishes no SAML metadata, and belongs to neither the Maeen national identity federation nor eduGAIN although thirty-eight Saudi entities do. There is no developer portal, no API key or client registration of any kind, no official GitHub organisation, and no OpenAPI — the specification in this repository is derived by API Evangelist from KAU's published endpoints and a real response body, not published by KAU.
 
-- APIs.json: https://raw.githubusercontent.com/api-evangelist/kau/refs/heads/main/apis.yml
-- Run it with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=kau-api-evangelist&utm_content=repo
+**Areas:** University · Higher Education · Education · Research · Open Data · Research Repository · Identity Federation · LMS · Saudi Arabia · Middle East
 
-## Type
+## King Abdulaziz University on APIs.io
 
-University / Public Research University / Index
+Everything profiled for King Abdulaziz University is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/kau/](https://apis.io/providers/kau/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (7)
 
-University, Higher Education, Education, Research, Open Data, Research Repository, Identity Federation, Learning Management, Saudi Arabia, Middle East
+- [KAU SAML 2.0 Identity Provider](https://apis.io/apis/kau/identity-federation/) — King Abdulaziz University's institutional SAML 2.0 identity provider, running Oracle Access Manager Federation at /oamfed/idp/samlv20. The IdP itself is…
+- [King Abdulaziz University Journals (Digital Commons tenancy)](https://apis.io/apis/kau/journals-digital-commons/) — KAU's Scientific Publishing Centre journals delivered on Elsevier's Digital Commons (bepress) platform, with a fully working OAI-PMH 2.0 data provider…
+- [KAU Blackboard Learn (LMS tenancy)](https://apis.io/apis/kau/blackboard-learn/) — King Abdulaziz University's learning management system, a Blackboard Learn SaaS tenancy. The Blackboard Learn REST API is genuinely provisioned here —…
+- [King Abdulaziz Scientific Platform (Al Manhal tenancy)](https://apis.io/apis/kau/scientific-platform/) — KAU's library discovery and scientific content platform, branded "King Abdulaziz scientific platform" and running on Al Manhal. Live at HTTP 200. No public…
+- [Crossref membership](https://apis.io/apis/kau/crossref/) — KAU holds two Crossref memberships in its own name. Member 2709, "King Abdulaziz University Scientific Publishing Centre", operates DOI prefix 10.4197 with…
+- [ROR registration](https://apis.io/apis/kau/ror/) — King Abdulaziz University is registered in ROR as https://ror.org/02ma4wv74, with declared domain kau.edu.sa, types education and funder, and…
+- [King Abdulaziz University Students Data API](https://apis.io/apis/kau/kau-studentsdata-api/) — Aggregate student enrollment and graduation statistics.
 
-## Who operates what
+### Published properties
 
-A university is a federation of buyers, not a producer, so every surface below carries an
-operator. `x-operator` says who runs the thing, which for a university is rarely the same
-answer as whose name is on it.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Institution-operated — KAU's own engineering
+#### JSON Schema (1)
 
-- **KAU Open Data API** — `https://opendata.kau.edu.sa/api/StudentsData` — aggregate student
-  enrollment and graduation counts as JSON, broken down by faculty, department, level, study
-  type, gender, nationality and admission cohort. Eight unauthenticated GET invocations
-  published by KAU on its own Open Data page, no credential required, no personal data in the
-  payload. Specification: [openapi/kau-open-data-api-openapi.yml](openapi/kau-open-data-api-openapi.yml).
-- **KAU SAML 2.0 Identity Provider** — `https://iam.kau.edu.sa/oamfed/idp/samlv20` — Oracle
-  Access Manager Federation, self-hosted in KAU's own address block with no managed-IdP vendor
-  underneath. Detail: [identity-federation/kau-identity-federation.yml](identity-federation/kau-identity-federation.yml).
+The data models the API reads and writes.
 
-### Tenant — real relationships, vendor contracts NOT claimed as KAU's
+- [King Abdulaziz University Open Data — StudentsData record](https://apis.io/schemas/kau/kau-students-data/)
 
-- **KAU Journals on Elsevier Digital Commons** — `kauj.researchcommons.org`, with a working
-  OAI-PMH 2.0 data provider back to 2000. The best machine-readable surface associated with this
-  university, and it is Elsevier's engineering — `adminEmail` is `dc-support@elsevier.com`.
-- **Blackboard Learn** — `lms.kau.edu.sa`, a Blackboard SaaS tenancy in eu-central-1. The Learn
-  REST API and LTI endpoints are provisioned and gated.
-- **King Abdulaziz Scientific Platform** — `libsp.kau.edu.sa`, an Al Manhal tenancy.
+#### JSON-LD (1)
 
-### Registry — memberships, never the registry's contract
+Linked-data contexts for the provider's vocabulary.
 
-- **Crossref** — member 2709 (KAU Scientific Publishing Centre, DOI prefix 10.4197, 1,920 DOIs)
-  and member 53473; Funder ID 501100004054.
-- **ROR** — [https://ror.org/02ma4wv74](https://ror.org/02ma4wv74), domain kau.edu.sa.
+- [Kau Context](https://apis.io/jsonld/kau/kau-context/)
 
-## What KAU does not have
+#### Examples (2)
 
-No developer portal. No API key, client registration or self-service onboarding of any kind. No
-official GitHub organisation. No KAU-published OpenAPI — the specification here is derived by API
-Evangelist from KAU's published endpoints and a real response body. No DataCite account, despite
-1,249 DataCite DOIs carrying KAU's ROR as an author affiliation. No ORCID member organisation and
-no Shibboleth. And no membership of Maeen, Saudi Arabia's national identity federation, or of
-eduGAIN — although 38 Saudi entities including King Saud University, KFUPM, KAUST and King Khalid
-University are registered there. KAU runs SAML for itself and does not federate outward.
+Example requests and responses.
 
-## Artifacts
+- [Kau Lms System Version Example](https://apis.io/examples/kau/kau-lms-system-version-example/)
+- [Kau Lms Unauthenticated Error Example](https://apis.io/examples/kau/kau-lms-unauthenticated-error-example/)
 
-- OpenAPI: [openapi/kau-open-data-api-openapi.yml](openapi/kau-open-data-api-openapi.yml) (pristine copy in [openapi/_original/](openapi/_original/))
-- JSON Schema: [json-schema/kau-students-data-schema.json](json-schema/kau-students-data-schema.json)
-- Vocabulary: [vocabulary/kau-open-data-vocabulary.yml](vocabulary/kau-open-data-vocabulary.yml)
-- Examples: [examples/index.yml](examples/index.yml)
-- Authentication: [authentication/kau-authentication.yml](authentication/kau-authentication.yml)
-- Conformance (`education` regime): [conformance/kau-conformance.yml](conformance/kau-conformance.yml)
-- Identity federation: [identity-federation/kau-identity-federation.yml](identity-federation/kau-identity-federation.yml)
-- Plans & Pricing: [plans/kau-plans-pricing.yml](plans/kau-plans-pricing.yml)
-- Rate Limits: [rate-limits/kau-rate-limits.yml](rate-limits/kau-rate-limits.yml)
-- FinOps: [finops/kau-finops.yml](finops/kau-finops.yml)
+#### Security (2)
 
-## Timestamps
+Authentication, trust centre, and vulnerability disclosure.
 
-- Created: 2026-06-03
-- Modified: 2026-09-01
+- [Kau Authentication](https://apis.io/security/kau/kau-authentication/)
+- [Kau Domain Security](https://apis.io/security/kau/kau-domain-security/)
 
-## Common Properties
+#### Plans and pricing (1)
 
-- Website: https://www.kau.edu.sa/en
-- Open Data: https://www.kau.edu.sa/page/open-data
-- Research Repository (tenant): https://kauj.researchcommons.org/
-- Library / Discovery (tenant): https://libsp.kau.edu.sa/
-- LinkedIn: https://www.linkedin.com/school/king-abdulaziz-university
-- Twitter/X: https://x.com/kauedu_sa
+Published plans, tiers and prices.
 
-## Notes
+- [Kau Plans Pricing](https://apis.io/plans/kau/kau-plans-pricing/)
 
-Re-profiled 2026-09-01 under the API Evangelist university pipeline. The 2026-06-03 profile
-described KAU's Open Data page as an empty beta placeholder with no datasets or endpoints; that
-was wrong, and the correction is the main result of this pass.
+#### Rate limits (1)
 
-Every host in KAU's self-hosted `192.162.72.0/24` block — `opendata`, `sso`, `iam`, `research`,
-`journals` — refused connections on 443 from two independent network egresses during this run,
-while KAU's CloudFront-fronted `www` host and all three vendor tenancies answered normally. That
-pattern reads as a geographic restriction on KAU's own estate, not a dead service and not a block
-on us. The SAML IdP was proven live indirectly, by a signed AuthnRequest KAU's own Blackboard
-tenancy generated during the run. The Open Data API's last verified HTTP 200 is an Internet
-Archive capture of 2025-04-17 returning 1,886 records, corroborated by seven further 200 captures
-across 2024; artifacts derived from it are marked `derived`, not probed-live.
+Published request limits.
 
-Separately, the dataset downloads KAU links from its own Open Data page are broken: every
-`GetFile.aspx` URL returns 404 after the site's migration to Next.js. The spreadsheet half of the
-open data programme is dead while the API half is not.
+- [Kau Rate Limits](https://apis.io/rate-limits/kau/kau-rate-limits/)
 
-No endpoints, datasets, credentials or conformances were fabricated, and no vendor contract is
-saved under this institution's name.
+#### FinOps (1)
 
-## Maintainers
+What the API costs to run, by operation.
 
-- Kin Lane — kin@apievangelist.com
+- [Kau Finops](https://apis.io/finops/kau/kau-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.kau.edu.sa/en)
+- [Blog](https://www.kau.edu.sa/en/news)
+
+## API Evangelist rating
+
+**Kin Score 18.4** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 57.1 |
+| Contract quality | 23.8 |
+| Contract governance | 3.8 |
+| Operational transparency | 5.3 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 5.3 |
+
+**Agent readiness 24.5** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | — |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/kau/](https://apis.io/providers/kau/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for King Abdulaziz University: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/kau/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
